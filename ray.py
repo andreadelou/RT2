@@ -1,7 +1,9 @@
+from tkinter.messagebox import NO
 from lib import *
 from math import *
 from vector import V3
 from sphere import Sphere
+from material import *
 
 
 
@@ -43,36 +45,38 @@ class Raytracer(object):
                     V3(0, 0, 0), direction, color_actual)
 
     def cast_ray(self, origin, direction, color_actual):
-        # la magia pasa
-        for esfera in self.scene:
-            intersect = esfera[0].ray_intersect(origin, direction)
-            if intersect:
-                return esfera[1]
+        material = self.scene_intersect(origin, direction)
+        if material:
+            return material.diffuse
+        else:
+            return self.background_color
 
-        return color_actual
+
+    def scene_intersect(self,origin,direction):
+        zbuffer = 999999
+        material = None
+
+        for s in self.scene:
+            intersect = s.ray_intersect(origin,direction)
+            if intersect:
+                if intersect.distance < zbuffer:
+                    zbuffer = intersect.distance
+                    material = s.material
+                return s.material
     
 
-r = Raytracer(400, 400)
-r.clear()
+red = Material(diffuse=color(255,0,0))
+white = Material(diffuse=color(255,255,255))
+
+
+r = Raytracer(800, 600)
 r.scene = [
-    #arriba/abajo iz/de cercano a la camara
-    [Sphere(V3(3, 1, -20), 0.2), color(0, 0, 0)],
-    [Sphere(V3(2.5, 0.5, -20), 0.2), color(0, 0, 0)],
-    [Sphere(V3(2.5, -0.5, -20), 0.2), color(0, 0, 0)],
-    [Sphere(V3(3, -1, -20), 0.2), color(0, 0, 0)],
-    [Sphere(V3(1, 0, -20), 0.4), color(0, 0, 0)],
-    [Sphere(V3(-1.5, 0, -20), 0.4), color(0, 0, 0)],
-    [Sphere(V3(-4, 0, -20), 0.4), color(0, 0, 0)],
-    [Sphere(V3(-7, 0, -20), 0.4), color(0, 0, 0)],
-    [Sphere(V3(-10, 0, -20), 0.4), color(0, 0, 0)],
-    [Sphere(V3(5, 1, -20), 0.4), color(0, 0, 0)],
-    [Sphere(V3(5, -1, -20), 0.4), color(0, 0, 0)],
-    [Sphere(V3(4, 0, -20), 0.4), color(237, 137, 30)],
-    [Sphere(V3(1, 0, -5), 0.7), color(255, 255, 255)],
-    [Sphere(V3(-0.4, 0, -5), 0.9), color(255, 255, 255)],
-    [Sphere(V3(-1.5, 0, -4), 0.9), color(255, 255, 255)],
-   
+    Sphere(V3(0, 3, -16), 2, white),
+    Sphere(V3(0, -2, -16), 1, red),
+    Sphere(V3(0, 0.2, -16), 1.5, white),
     
 ]
+
 r.render()
-r.write('rt1.bmp')
+
+r.write('r.bmp')
