@@ -60,11 +60,12 @@ class Raytracer(object):
         intersect = None
 
         for s in self.scene:
-            intersect = s.ray_intersect(origin,direction)
-            if intersect:
-                if intersect.distance < zbuffer:
+            object_intersect = s.ray_intersect(origin,direction)
+            if object_intersect:
+                if object_intersect.distance < zbuffer:
                     zbuffer = intersect.distance
                     material = s.material
+                    intersect = object_intersect
                 return s.material, intersect
     
 
