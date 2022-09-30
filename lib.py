@@ -9,17 +9,39 @@ def word(w):
 def dword(d):
   return struct.pack('=l', d)
 
-def color(r, g, b):
-    return bytes([b, g, r])
+class color(object):
+    
+    def __init__(self, r, g, b):
+        self.r = r
+        self.g = g
+        self.b = b
 
-def color_unit(r, g, b):
-  return color(clamping(r*255), clamping(g*255), clamping(b*255))
+    def __add__(self, other_color):
+        r = self.r + other_color.r
+        g = self.g + other_color.g
+        b = self.b + other_color.b
+
+        return color(r, g, b)
+
+    def __mul__(self, other):
+        r = self.r * other
+        g = self.g * other
+        b = self.b * other
+        return color(r, g, b)
+
+    def __repr__(self):
+        return "color(%s, %s, %s)" % (self.r, self.g, self.b)
+
+    def toBytes(self):
+        self.r = int(max(min(self.r, 255), 0))
+        self.g = int(max(min(self.g, 255), 0))
+        self.b = int(max(min(self.b, 255), 0))
+        return bytes([self.b, self.g, self.r])
+
+    __rmul__ = __mul__
   
-def clamping(num):
-  return int(max(min(num, 255), 0))
-  
-BLACK = color(0, 0, 0)
-WHITE = color(255, 255, 255)
+# BLACK = color(0, 0, 0)
+# WHITE = color(255, 255, 255)
 
 
 
@@ -64,7 +86,7 @@ def writebmp(filename, width, height, framebuffer):
     # pixel data
     for x in range(height):
         for y in range(width):
-            f.write(framebuffer[y][x])
+            f.write(framebuffer[y][x].toBytes())
 
     f.close()
 

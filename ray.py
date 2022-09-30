@@ -13,7 +13,7 @@ class Raytracer(object):
         self.width = width
         self.height = height
         self.framebuffer = []
-        self.background_color = color(134, 157, 202 )
+        self.background_color = color(67, 64, 138 )
         self.current_color = color(255, 255, 255)
         self.scene = []
         self.light = None
@@ -58,14 +58,8 @@ class Raytracer(object):
         light_dir = (self.light.position - intersect.point).norm()
         intensity = light_dir @ intersect.normal
         
-        try:
-            diffuse = color(
-                int(material.diffuse[2] * intensity),
-                int(material.diffuse[1] * intensity),
-                int(material.diffuse[0] * intensity)
-            ) 
-        except:
-            diffuse=color(0,0,0)
+        
+        diffuse = material.diffuse * intensity
         
             
         return diffuse
@@ -105,6 +99,7 @@ r.scene = [
     Sphere(V3(-0.2, 0, -11), 0.1, black),
     Sphere(V3(-1.4, 0, -11), 0.1, black),
     Sphere(V3(-3, 0, -11), 0.1, black)
+    
 ]
 r.render()
 r.write('rt1.bmp')
