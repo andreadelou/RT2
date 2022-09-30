@@ -12,7 +12,6 @@ def dword(d):
 def color(r, g, b):
     return bytes([b, g, r])
 
-
 def color_unit(r, g, b):
   return color(clamping(r*255), clamping(g*255), clamping(b*255))
   
