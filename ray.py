@@ -58,7 +58,6 @@ class Raytracer(object):
         light_dir = (self.light.position - intersect.point).norm()
         intensity = light_dir @ intersect.normal
         
-        
         diffuse = material.diffuse * intensity
         
             
