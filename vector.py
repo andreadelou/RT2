@@ -45,6 +45,7 @@ class V3(object):
     def length(self):
         return (self.x**2 + self.y**2 + self.z**2)**0.5
 
+    #normaliza
     def norm(self):
         return self * (1/self.length())
 

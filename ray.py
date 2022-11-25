@@ -1,10 +1,7 @@
-from tkinter.messagebox import NO
 from lib import *
 from math import *
 from vector import V3
 from sphere import Sphere
-from material import *
-from light import *
 
 
 
@@ -13,12 +10,11 @@ class Raytracer(object):
         self.width = width
         self.height = height
         self.framebuffer = []
-        self.background_color = color(67, 64, 138 )
+        self.background_color = color(134, 157, 202 )
         self.current_color = color(255, 255, 255)
-        self.scene = []
-        self.light = None
         self.clear()
-        
+        self.scene = []
+
     def clear(self):
         self.framebuffer = [
             [self.background_color for x in range(self.width)]
@@ -45,59 +41,36 @@ class Raytracer(object):
                 direction = V3(i, j, -1).norm()
                 self.framebuffer[y][x] = self.cast_ray(
                     V3(0, 0, 0), direction, color_actual)
-                
+
     def cast_ray(self, origin, direction, color_actual):
-        material, intersect = self.scene_intersect(origin, direction)
+        for esfera in self.scene:
+            intersect = esfera[0].ray_intersect(origin, direction)
+            if intersect:
+                return esfera[1]
 
-        if intersect is None:
-            return color_actual
-
-        if material is None:
-            return color_actual
-
-        light_dir = (self.light.position - intersect.point).norm()
-        intensity = light_dir @ intersect.normal
-        
-        diffuse = material.diffuse * intensity
-        
-            
-        return diffuse
-            
-
-
-    def scene_intersect(self, origin, direction):
-        zbuffer = 999999
-        material = None
-        intersect = None
-
-        for obj in self.scene:
-            object_intersect = obj.ray_intersect(origin, direction)
-            if object_intersect:
-                if object_intersect.distance < zbuffer:
-                    zbuffer = object_intersect.distance
-                    material = obj.material
-                    intersect = object_intersect
-
-        return material, intersect
+        return color_actual
     
-    
-r = Raytracer(800, 800)
 
-black = Material(diffuse=color(0, 0, 0))
-white = Material(diffuse=color(255, 255, 255))
-orange = Material(diffuse=color(255, 128, 0))
-
-r.light = Light(V3(0, 0, 0), 1)
+r = Raytracer(400, 400)
+r.clear()
 r.scene = [
-    Sphere(V3(-5, 0, -16), 3, white),
-    Sphere(V3(-0.5, 0, -16), 2, white),
-    Sphere(V3(2.8, 0, -16), 1.5, white),
-    Sphere(V3(2, -0.5, -11), 0.1, black),
-    Sphere(V3(2, 0.5, -11), 0.1, black),
-    Sphere(V3(1.898, 0, -12), 0.2, orange),
-    Sphere(V3(-0.2, 0, -11), 0.1, black),
-    Sphere(V3(-1.4, 0, -11), 0.1, black),
-    Sphere(V3(-3, 0, -11), 0.1, black)
+    #arriba/abajo iz/de cercano a la camara
+    [Sphere(V3(3, 1, -20), 0.2), color(0, 0, 0)],
+    [Sphere(V3(2.5, 0.5, -20), 0.2), color(0, 0, 0)],
+    [Sphere(V3(2.5, -0.5, -20), 0.2), color(0, 0, 0)],
+    [Sphere(V3(3, -1, -20), 0.2), color(0, 0, 0)],
+    [Sphere(V3(1, 0, -20), 0.4), color(0, 0, 0)],
+    [Sphere(V3(-1.5, 0, -20), 0.4), color(0, 0, 0)],
+    [Sphere(V3(-4, 0, -20), 0.4), color(0, 0, 0)],
+    [Sphere(V3(-7, 0, -20), 0.4), color(0, 0, 0)],
+    [Sphere(V3(-10, 0, -20), 0.4), color(0, 0, 0)],
+    [Sphere(V3(5, 1, -20), 0.4), color(0, 0, 0)],
+    [Sphere(V3(5, -1, -20), 0.4), color(0, 0, 0)],
+    [Sphere(V3(4, 0, -20), 0.4), color(237, 137, 30)],
+    [Sphere(V3(1, 0, -5), 0.7), color(255, 255, 255)],
+    [Sphere(V3(-0.4, 0, -5), 0.9), color(255, 255, 255)],
+    [Sphere(V3(-1.5, 0, -4), 0.9), color(255, 255, 255)],
+   
     
 ]
 r.render()
