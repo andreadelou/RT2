@@ -1,4 +1,5 @@
 import struct
+from vector import *
 
 def char(c):
   return struct.pack('=c', c.encode('ascii'))
@@ -9,36 +10,41 @@ def word(w):
 def dword(d):
   return struct.pack('=l', d)
 
+# def color(r, g, b):
+#     r = int(min(255, max(r, 0)))
+#     g = int(min(255, max(g, 0)))
+#     b = int(min(255, max(b, 0)))
+#     return bytes([b, g, r])
+
 class color(object):
-    
-    def __init__(self, r, g, b):
-        self.r = r
-        self.g = g
-        self.b = b
+  def __init__(self, r, g, b):
+    self.r = r
+    self.g = g
+    self.b = b
 
-    def __add__(self, other_color):
-        r = self.r + other_color.r
-        g = self.g + other_color.g
-        b = self.b + other_color.b
+  def __add__(self, other_color):
+    r = self.r + other_color.r
+    g = self.g + other_color.g
+    b = self.b + other_color.b
 
-        return color(r, g, b)
+    return color(r, g, b)
 
-    def __mul__(self, other):
-        r = self.r * other
-        g = self.g * other
-        b = self.b * other
-        return color(r, g, b)
+  def __mul__(self, other):
+    r = self.r * other
+    g = self.g * other
+    b = self.b * other
+    return color(r, g, b)
 
-    def __repr__(self):
-        return "color(%s, %s, %s)" % (self.r, self.g, self.b)
+  def __repr__(self):
+    return "color(%s, %s, %s)" % (self.r, self.g, self.b)
 
-    def toBytes(self):
-        self.r = int(max(min(self.r, 255), 0))
-        self.g = int(max(min(self.g, 255), 0))
-        self.b = int(max(min(self.b, 255), 0))
-        return bytes([self.b, self.g, self.r])
+  def toBytes(self):
+    self.r = int(max(min(self.r, 255), 0))
+    self.g = int(max(min(self.g, 255), 0))
+    self.b = int(max(min(self.b, 255), 0))
+    return bytes([int(self.b), int(self.g), int(self.r)])
 
-    __rmul__ = __mul__
+  __rmul__ = __mul__
   
 # BLACK = color(0, 0, 0)
 # WHITE = color(255, 255, 255)
@@ -86,10 +92,38 @@ def writebmp(filename, width, height, framebuffer):
     # pixel data
     for x in range(height):
         for y in range(width):
-            f.write(framebuffer[y][x].toBytes())
+            f.write(framebuffer[x][y].toBytes())
 
     f.close()
 
+
+
+def length(v0):
+    return (v0.x**2 + v0.y**2 + v0.z**2)**0.5
+  
+def norm(v0):
+  v0length = length(v0)
+
+  if not v0length:
+      return V3(0, 0, 0)
+
+  return V3(v0.x/v0length, v0.y/v0length, v0.z/v0length)
+  
+def sub(v0, v1):
+  return V3(v0.x - v1.x, v0.y - v1.y, v0.z - v1.z)
+  
+def dot(v0, v1):
+  return v0.x * v1.x + v0.y * v1.y + v0.z * v1.z
+
+def multi(v0,k):
+    return V3(
+        v0.x * k,
+        v0.y * k,
+        v0.z * k
+    )
+    
+def reflect(I, N):
+  return norm(sub(I, multi(N, 2 * dot(I, N))))
 
 def set_current_color(self, r, g, b):
     red = self.clamping(r * 255)

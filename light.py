@@ -1,7 +1,5 @@
-
 class Light:
-    def __init__(self,position,intensity,color=None):
-        self.position = position
+    def __init__(self, position, intensity):
         self.intensity = intensity
-        self.color = color
+        self.position = position
         
