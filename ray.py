@@ -83,43 +83,40 @@ class Raytracer(object):
 # ----------------------- Main para correr --------------------------------
 
 
-rubber = Material(diffuse=color(80, 0, 0), albedo=(0.6, 0.3), spec=50)
-ivory = Material(diffuse=color(100, 100, 80), albedo=(0.9, 0.1), spec=10)
-coffee = Material(diffuse=color(170, 80, 40), albedo=(0.9, 0.3), spec=7)
-softcoffee = Material(diffuse=color(230, 170, 135), albedo=(0.9, 0.9), spec=35)
-dark = Material(diffuse=color(0, 0, 0), albedo=(0.3, 0.3), spec=3)
-lightGreen = Material(diffuse=color(130, 223, 36), albedo=(0.9, 0.9), spec=10)
-iron = Material(diffuse=color(200, 200, 200), albedo=(1, 1), spec=20)
-snow = Material(diffuse=color(250, 250, 250), albedo=(0.9, 0.9), spec=35)
-gold = Material(diffuse=color(255, 215, 0), albedo=(0.9, 0.9), spec=35)
+rubber = Material(diffuse=color(80, 0, 0), albedo=(0.4, 0.3), spec=50)
+white = Material(diffuse=color(255, 255, 255), albedo=(0.9, 0.9), spec=10)
+cafe = Material(diffuse=color(170, 80, 40), albedo=(0.3, 0.5), spec=10)
+cafeclaro = Material(diffuse=color(230, 170, 135), albedo=(0.9, 0.9), spec=5)
+negro = Material(diffuse=color(0, 0, 0), albedo=(0.3, 0.3), spec=3)
 
-r = Raytracer(600, 600)
+
+r = Raytracer(800, 800)
 r.light = Light(V3(20, 20, -20), 1.5)
 r.scene = [
     Sphere(V3(2.5, -1, -10), 1.5, rubber),
-    Sphere(V3(2.5, 1.5, -10), 1.25, softcoffee),
-    Sphere(V3(2.3, 1.1, -9), 0.4, coffee),
-    Sphere(V3(3.4, 2.3, -9), 0.35, coffee),
-    Sphere(V3(1.4, 2.3, -9), 0.35, coffee),
-    Sphere(V3(4, 0, -10), 0.45, softcoffee),
-    Sphere(V3(1, 0, -10), 0.45, softcoffee),
-    Sphere(V3(4, -2.2, -10), 0.5, softcoffee),
-    Sphere(V3(1, -2.2, -10), 0.5, softcoffee),
-    Sphere(V3(2, 1, -8), 0.1, dark),
-    Sphere(V3(2.3, 1.5, -8), 0.1, dark),
-    Sphere(V3(1.7, 1.5, -8), 0.1, dark),
-    Sphere(V3(-2.5, -1, -10), 1.5, snow),
-    Sphere(V3(-2.5, 1.5, -10), 1.25, snow),
-    Sphere(V3(-2.4, 1.1, -9), 0.4, snow),
-    Sphere(V3(-3.3, 2.3, -9), 0.35, snow),
-    Sphere(V3(-1.3, 2.3, -9), 0.35, snow),
-    Sphere(V3(-4, 0, -10), 0.45, snow),
-    Sphere(V3(-1, 0, -10), 0.45, snow),
-    Sphere(V3(-4, -2.2, -10), 0.5, snow),
-    Sphere(V3(-1, -2.2, -10), 0.5, snow),
-    Sphere(V3(-2.1, 1, -8), 0.1, dark),
-    Sphere(V3(-2.4, 1.5, -8), 0.1, dark),
-    Sphere(V3(-1.8, 1.5, -8), 0.1, dark),
+    Sphere(V3(2.5, 1.5, -10), 1.25, cafeclaro),
+    Sphere(V3(2.3, 1.1, -9), 0.4, cafe),
+    Sphere(V3(3.4, 2.3, -9), 0.35, cafe),
+    Sphere(V3(1.4, 2.3, -9), 0.35, cafe),
+    Sphere(V3(4, 0, -10), 0.45, cafeclaro),
+    Sphere(V3(1, 0, -10), 0.45, cafeclaro),
+    Sphere(V3(4, -2.2, -10), 0.5, cafeclaro),
+    Sphere(V3(1, -2.2, -10), 0.5, cafeclaro),
+    Sphere(V3(2, 1, -8), 0.1, negro),
+    Sphere(V3(2.3, 1.5, -8), 0.1, negro),
+    Sphere(V3(1.7, 1.5, -8), 0.1, negro),
+    Sphere(V3(-2.5, -1, -10), 1.5, white),
+    Sphere(V3(-2.5, 1.5, -10), 1.25, white),
+    Sphere(V3(-2.4, 1.1, -9), 0.4, white),
+    Sphere(V3(-3.3, 2.3, -9), 0.35, white),
+    Sphere(V3(-1.3, 2.3, -9), 0.35, white),
+    Sphere(V3(-4, 0, -10), 0.45, white),
+    Sphere(V3(-1, 0, -10), 0.45, white),
+    Sphere(V3(-4, -2.2, -10), 0.5, white),
+    Sphere(V3(-1, -2.2, -10), 0.5, white),
+    Sphere(V3(-2.1, 1, -8), 0.1, negro),
+    Sphere(V3(-2.4, 1.5, -8), 0.1, negro),
+    Sphere(V3(-1.8, 1.5, -8), 0.1, negro),
 ]
 
 r.render()
