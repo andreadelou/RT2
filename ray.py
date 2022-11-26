@@ -10,7 +10,6 @@ class Raytracer(object):
     def __init__(self, width, height):
         self.width = width
         self.height = height
-        self.clear_color = color(0, 0, 0)
         self.current_color = color(255, 255, 255)
         self.clear()
         self.scene = []
@@ -19,7 +18,7 @@ class Raytracer(object):
 
     def clear(self):
         self.framebuffer = [
-            [self.clear_color for x in range(self.width)] for y in range(self.height)
+            [self.background_color for x in range(self.width)] for y in range(self.height)
         ]
 
     def point(self, x, y, c=None):
@@ -80,9 +79,6 @@ class Raytracer(object):
         return material, intersect
 
 
-# ----------------------- Main para correr --------------------------------
-
-
 rubber = Material(diffuse=color(80, 0, 0), albedo=(0.4, 0.3), spec=50)
 white = Material(diffuse=color(255, 255, 255), albedo=(0.9, 0.9), spec=10)
 cafe = Material(diffuse=color(170, 80, 40), albedo=(0.3, 0.5), spec=10)
@@ -120,5 +116,4 @@ r.scene = [
 ]
 
 r.render()
-
 r.write("RT2.bmp")
