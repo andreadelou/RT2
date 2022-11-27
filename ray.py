@@ -11,14 +11,15 @@ class Raytracer(object):
         self.width = width
         self.height = height
         self.current_color = color(255, 255, 255)
+        self.background_color = color(0, 0, 0)
         self.clear()
         self.scene = []
-        self.background_color = color(0, 0, 0)
         self.light = Light(V3(0, 0, 0), 1)
 
     def clear(self):
         self.framebuffer = [
-            [self.background_color for x in range(self.width)] for y in range(self.height)
+            [self.background_color for x in range(self.width)]
+            for y in range(self.height)
         ]
 
     def point(self, x, y, c=None):
@@ -86,33 +87,21 @@ cafeclaro = Material(diffuse=color(230, 170, 135), albedo=(0.9, 0.9), spec=5)
 negro = Material(diffuse=color(0, 0, 0), albedo=(0.3, 0.3), spec=3)
 
 
-r = Raytracer(800, 800)
+r = Raytracer(300, 300)
 r.light = Light(V3(20, 20, -20), 1.5)
 r.scene = [
-    Sphere(V3(2.5, -1, -10), 1.5, rubber),
-    Sphere(V3(2.5, 1.5, -10), 1.25, cafeclaro),
-    Sphere(V3(2.3, 1.1, -9), 0.4, cafe),
-    Sphere(V3(3.4, 2.3, -9), 0.35, cafe),
-    Sphere(V3(1.4, 2.3, -9), 0.35, cafe),
-    Sphere(V3(4, 0, -10), 0.45, cafeclaro),
-    Sphere(V3(1, 0, -10), 0.45, cafeclaro),
-    Sphere(V3(4, -2.2, -10), 0.5, cafeclaro),
-    Sphere(V3(1, -2.2, -10), 0.5, cafeclaro),
-    Sphere(V3(2, 1, -8), 0.1, negro),
-    Sphere(V3(2.3, 1.5, -8), 0.1, negro),
-    Sphere(V3(1.7, 1.5, -8), 0.1, negro),
-    Sphere(V3(-2.5, -1, -10), 1.5, white),
-    Sphere(V3(-2.5, 1.5, -10), 1.25, white),
-    Sphere(V3(-2.4, 1.1, -9), 0.4, white),
-    Sphere(V3(-3.3, 2.3, -9), 0.35, white),
-    Sphere(V3(-1.3, 2.3, -9), 0.35, white),
-    Sphere(V3(-4, 0, -10), 0.45, white),
-    Sphere(V3(-1, 0, -10), 0.45, white),
-    Sphere(V3(-4, -2.2, -10), 0.5, white),
-    Sphere(V3(-1, -2.2, -10), 0.5, white),
-    Sphere(V3(-2.1, 1, -8), 0.1, negro),
-    Sphere(V3(-2.4, 1.5, -8), 0.1, negro),
-    Sphere(V3(-1.8, 1.5, -8), 0.1, negro),
+    Sphere(V3(-2.5, -1, -10), 1.5, rubber),
+    Sphere(V3(-2.5, 1.5, -10), 1.25, cafeclaro),
+    Sphere(V3(-2.3, 1.1, -9), 0.4, cafe),
+    Sphere(V3(-3.4, 2.3, -9), 0.35, cafe),
+    Sphere(V3(-1.4, 2.3, -9), 0.35, cafe),
+    Sphere(V3(-4, 0, -10), 0.45, cafeclaro),
+    Sphere(V3(-1, 0, -10), 0.45, cafeclaro),
+    Sphere(V3(-4, -2.2, -10), 0.5, cafeclaro),
+    Sphere(V3(-1, -2.2, -10), 0.5, cafeclaro),
+    Sphere(V3(-2, 1, -8), 0.1, negro),
+    Sphere(V3(-2.3, 1.5, -8), 0.1, negro),
+    Sphere(V3(-1.7, 1.5, -8), 0.1, negro),
 ]
 
 r.render()
