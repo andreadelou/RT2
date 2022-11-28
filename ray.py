@@ -42,8 +42,8 @@ class Raytracer(object):
                 direction = norm(V3(i, j, -1))
                 self.framebuffer[y][x] = self.cast_ray(V3(0, 0, 0), direction)
 
-    def cast_ray(self, origin, direction):
-
+    def cast_ray(self, origin, direction,intensity = 1 ):
+        
         material, intersect = self.scene_intersect(origin, direction)
 
         if intersect is None:
@@ -88,7 +88,7 @@ negro = Material(diffuse=color(0, 0, 0), albedo=(0.3, 0.3), spec=3)
 
 
 r = Raytracer(300, 300)
-r.light = Light(V3(20, 20, -20), 1.5)
+r.light = Light(V3(0, 0, 0), 1)
 r.scene = [
     Sphere(V3(-2.5, -1, -10), 1.5, rubber),
     Sphere(V3(-2.5, 1.5, -10), 1.25, cafeclaro),
