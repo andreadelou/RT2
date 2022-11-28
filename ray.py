@@ -88,7 +88,7 @@ negro = Material(diffuse=color(0, 0, 0), albedo=(0.3, 0.3), spec=3)
 
 
 r = Raytracer(300, 300)
-r.light = Light(V3(0, 0, 0), 1)
+r.light = Light(V3(-20, 0, 20), 1)
 r.scene = [
     Sphere(V3(-2.5, -1, -10), 1.5, rubber),
     Sphere(V3(-2.5, 1.5, -10), 1.25, cafeclaro),
